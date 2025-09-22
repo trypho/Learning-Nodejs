@@ -1,7 +1,9 @@
 const http = require('http');
+const fs = require('fs');
 
 const server = http.createServer((req, res) => {
     const url = req.url;
+    const method = req.method;
 
    if(url === '/') {
    res.write('<html>');
@@ -9,17 +11,19 @@ const server = http.createServer((req, res) => {
    res.write('<body><form action="/message" method="POST"><input type="text" name="message"><button>Send</button></form></body>');
    res.write('</html>');
    return res.end();
-   }else if (url === '/index') {
-   res.write('<html>');
-   res.write('<head><title>Index Page</title></head>');
-   res.write('<body><p>The routing was executed and arrived properly</p></body>');
-   res.write('</html>');
+   }
+   
+   if (url === '/message' && method === 'POST') {
+   console.log('Message route reached');
+   fs.writeFileSync('message.txt', 'DUMMY');
+   res.statusCode = 302;
+   res.setHeader('Location', '/');
    return res.end();
 
    }
 
    res.setHeader('Content-Type', 'text/html'); 
-   res.write('</html>');
+   res.write('<html>');
    res.write('<head><title>My First Page</title></head>');
    res.write('<body><h1>Hello Mr KGOBE from my Node.js server!</h1></body>');
    res.write('</html>');

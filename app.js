@@ -1,8 +1,8 @@
-const http = require('http');
+const http = require("http");
+const express = require("express");
 
-const routes = require('./routes');
-
-const server = http.createServer(routes);
+const app = express();
+const server = http.createServer(app);
 
 server.listen(3000);
-console.log('Server is listening on port 3000');
+console.log("Server is listening on port 3000");

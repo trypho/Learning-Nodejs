@@ -1,14 +1,22 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 
 const app = express();
+app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use("/secondPage", (req, res, next) => {
-  console.log("In the middleware");
-  res.send("<h1>Second Page loaded</h1>");
+app.use("/addUser", (req, res, next) => {
+  res.send(
+    '<form action="/user" method="POST"><input type="text" name="username" /><button>Add User</button></form>'
+  );
+});
+
+app.post("/user", (req, res, next) => {
+  console.log(req.body);
+  res.redirect("/");
 });
 
 app.use("/", (req, res, next) => {
-  console.log("In another middleware");
+  console.log("In the DEFAULT middleware");
   res.send("<h1>Hello From Express!!</h1>");
 });
 
